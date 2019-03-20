@@ -32,8 +32,6 @@ class Gry:
             elif wartosc == numer:
                 print("\nWygrales!")
                 self.main()
-    
-    def 
 
 import random
 if __name__ == '__main__':
