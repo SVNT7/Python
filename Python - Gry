@@ -1,0 +1,41 @@
+class Gry:
+    def main(self):
+        while True:
+            action = input("Wybierz co chcialbys zrobic:\n1.Rzut kostka\n2.Zgadnij numer\n Twoja odpowiedz: ")
+            if action not in ("1,2,3,4"):
+                print("Nie ma takiego wyboru")
+                continue
+            elif action == "1":
+                print("\n")
+                self.rzutKostka()
+            elif action == "2":
+                self.zgadnijNumer()
+
+    def rzutKostka(self):
+        numer = random.randint(1,6)
+        action = input("Wylosowano %d.\nNowy rzut? (tak/nie): " %(numer))
+        if action == "tak":
+            self.rzutKostka()
+        elif action != "tak":
+            print("\n")
+            self.main()
+
+    def zgadnijNumer(self):
+        x = 1
+        numer = random.randint(1,20)
+        while x == 1:
+            action = input("Zgadnij numer(1-20): ")
+            if wartosc > numer:
+                print("Za wysoko")
+            elif wartosc < numer:
+                print("Za nisko")
+            elif wartosc == numer:
+                print("\nWygrales!")
+                self.main()
+    
+    def 
+
+import random
+if __name__ == '__main__':
+    gry = Gry()
+    gry.main()
