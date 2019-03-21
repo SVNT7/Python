@@ -1,0 +1,25 @@
+import random
+import tkinter as tk
+
+okno  = tk.Tk()
+
+def rzutKostka():
+    numer = random.randint(1,6)
+    textbox.insert(tk.END, "Wylosowano %d.\n" %(numer))
+    print(textbox.get(1.0, tk.END))
+
+okno.title("Gry")
+okno.geometry("500x500")
+okno.resizable(0,0)
+
+srodek = tk.Frame()
+srodek.pack_propagate(0)
+
+graRzutKostka = tk.Button(okno, text="Rzut kostka",command=rzutKostka)
+graRzutKostka.pack(side="top")
+
+textbox = tk.Text(okno)
+textbox.pack()
+
+okno.mainloop()
+
