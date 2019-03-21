@@ -1,7 +1,9 @@
+
 class Gry:
+
     def main(self):
         while True:
-            action = input("Wybierz co chcialbys zrobic:\n1.Rzut kostka\n2.Zgadnij numer\n Twoja odpowiedz: ")
+            action = input("Wybierz co chcialbys zrobic:\n1.Rzut kostka\n2.Zgadnij numer\n3.Stworz historie\n4.Wisielec\n Twoja odpowiedz: ")
             if action not in ("1,2,3,4"):
                 print("Nie ma takiego wyboru")
                 continue
@@ -10,6 +12,10 @@ class Gry:
                 self.rzutKostka()
             elif action == "2":
                 self.zgadnijNumer()
+            elif action == "3":
+                self.historie()
+            elif action == "4":
+                self.wisielec()
 
     def rzutKostka(self):
         numer = random.randint(1,6)
@@ -24,7 +30,9 @@ class Gry:
         x = 1
         numer = random.randint(1,20)
         while x == 1:
+            print(numer)
             action = input("Zgadnij numer(1-20): ")
+            wartosc = int(action)
             if wartosc > numer:
                 print("Za wysoko")
             elif wartosc < numer:
@@ -33,6 +41,51 @@ class Gry:
                 print("\nWygrales!")
                 self.main()
 
+    def historie(self):
+        rzeczownik = input("Podaj rzeczownik: ")
+        rzeczownikMn = input("Podaj rzeczownik w liczbie mnogiej: ")
+        imie = input("Podaj dowolne imie: ")
+        przymiotnik = input("Podaj przymiotnik: ")
+
+        print("\n")
+        print("Na gorze %s "%(rzeczownik))
+        print("Na dole %s "%(rzeczownikMn))
+        print("Na %s widok"%(imie))
+        print("Nawet %s serce nie staje\n"%(przymiotnik))
+    
+    def wisielec(self):
+        alfabet = "abcdefghijklmnopqrstuvwxyz"
+        linie = []
+        uzyte_znaki = []
+        proby = 1
+        numer = random.randint(1,854)
+        slowo = linecache.getline('wisielec.txt', numer) # znajdz losowe slowo
+        dlugosc = len(slowo)
+        for dlugosc in slowo:
+            linie.append("-")
+        linie.remove("-")
+        while proby < 10:
+            print(linie)
+            print(slowo)
+            odpowiedz = input("Podaj litere (10 prob): ")
+            if odpowiedz not in alfabet:
+                print("Podaj prawidlowa litere")
+            elif odpowiedz in uzyte_znaki:
+                print("Ten znak byl juz uzyty!")
+            else:
+                uzyte_znaki.append(odpowiedz)
+                proby+=1
+                if odpowiedz in slowo:
+                    print("Dobrze!") # jesli znak jest w slowie
+                    for x in range(0, len(slowo)):  # petla, sprawdz wszystkie litery po kolei,
+                        if slowo[x] == odpowiedz:   # jesli sa takie same to podmien myslnik
+                            linie[x] = odpowiedz
+            if not "-" in linie:
+                print("Wygrales!\n")
+                self.main()
+        print("Skonczyly ci sie proby\n")
+      
+import linecache
 import random
 if __name__ == '__main__':
     gry = Gry()
