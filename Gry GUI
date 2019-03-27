@@ -1,25 +1,142 @@
 import random
+import linecache
 import tkinter as tk
 
 okno  = tk.Tk()
+numer = 0
+listaSlow = ["telefon", "komputer","rewolwer","autostrada","programowanie","huragan","kompresja","kasztan","helikopter","kamper","butelka","kaskader",
+            "laptop","komputer","myszka","telefon","pilot","koniunkcja","operator","stolik","wyrewolwerowany","pastuch","owca","paluszki",
+            "krakersy","serwis","mieszkanie","balon","obiad","karygodny","krokodyl","autostrada","policja","konfident","bachor","kataklizm",
+            "wariatka","kontakt"]
+slowo = random.choice(listaSlow)
+alfabet = "abcdefghijklmnopqrstuvwxyz"
+liczby = []
+for x in range(1,25):
+    liczby.append(x)
+linie = []
+punkt = 0
+uzyte_znaki = []
+
+def glowna():
+    okno.mainloop()
+
+def zniszczWszystko():
+    graRzutKostka.pack(padx=20,pady=20)
+    graZgadnijNumer.pack(padx=20,pady=20)
+    graWisielec.pack(padx=20,pady=20)
+    przyciskWroc.pack_forget()
+    wyswietlNumer.pack_forget()
+    przyciskSprawdz.pack_forget()
+    wyswietlTekst.pack_forget()
+    odp.pack_forget()
+    tekstWisielec.pack_forget()
+    odp2.pack_forget()
+    przyciskWisielec.pack_forget()
+    przyciskWroc.pack_forget()
+    informacjaWisielec.pack_forget()
+    glowna()
+
+def pokazKostka():
+    wyswietlNumer.pack()
+    przyciskWroc.pack(side="bottom",padx=20,pady=20)
+    rzutKostka()
 
 def rzutKostka():
+    graWisielec.pack_forget()
+    graZgadnijNumer.pack_forget()
     numer = random.randint(1,6)
-    textbox.insert(tk.END, "Wylosowano %d.\n" %(numer))
-    print(textbox.get(1.0, tk.END))
+    wyswietlNumer["text"] = numer
+    #textbox.insert(tk.END, "Wylosowano %d.\n" %(numer))
+    #print(textbox.get(1.0, tk.END))
 
-okno.title("Gry")
-okno.geometry("500x500")
-okno.resizable(0,0)
+def pokazNumer():
+    przyciskSprawdz.pack(side="top",padx=20, pady=20)
+    odp.pack()
+    wyswietlTekst.pack()
+    zgadnijNumer()
 
-srodek = tk.Frame()
-srodek.pack_propagate(0)
+def zgadnijNumer():
+    graWisielec.pack_forget()
+    graRzutKostka.pack_forget()
+    graZgadnijNumer.pack_forget()
+    wyswietlNumer.pack_forget()
+    sprawdzOdpowiedz = int(odp.get())
+    przyciskWroc.pack(side="bottom",padx=20,pady=20)
+    if sprawdzOdpowiedz > numer:
+        wyswietlTekst["text"] = "Za wysoko!"
+    elif sprawdzOdpowiedz < numer:
+        wyswietlTekst["text"] = "Za nisko!"
+    elif sprawdzOdpowiedz == numer:
+        wyswietlTekst["text"] = "Zgadles!"
 
-graRzutKostka = tk.Button(okno, text="Rzut kostka",command=rzutKostka)
-graRzutKostka.pack(side="top")
+def wisielecGra():
+    sprawdzOdpowiedzWisielec = odp2.get()
+    if sprawdzOdpowiedzWisielec not in alfabet:
+       informacjaWisielec["text"] = "Podaj poprawny znak!"
+    elif sprawdzOdpowiedzWisielec in uzyte_znaki:
+        informacjaWisielec["text"] = "Ten znak byl juz uzyty!"
+    else:
+        uzyte_znaki.append(sprawdzOdpowiedzWisielec)
+        for x in range(0, len(slowo)):
+            if slowo[x] == sprawdzOdpowiedzWisielec:
+                linie[x] = sprawdzOdpowiedzWisielec
+                tekstWisielec["text"] = linie
+    if not "-" in linie:
+        informacjaWisielec["text"] = "Wygrales!"
+        przyciskWisielec.pack_forget()
 
-textbox = tk.Text(okno)
-textbox.pack()
+def wisielec():
+    graRzutKostka.pack_forget()
+    graZgadnijNumer.pack_forget()
+    graWisielec.pack_forget()
+    tekstWisielec.pack()
+    odp2.pack()
+    informacjaWisielec.pack()
+    przyciskWisielec.pack()
+    przyciskWroc.pack(side="bottom",padx=20,pady=20)
+    wisielecWypisz()
 
-okno.mainloop()
+def wisielecWypisz():
+    for x in slowo: # dla kazdego znaku w slowie
+        linie.append("-")
+        tekstWisielec["text"] = linie
+    wisielecGra()
+    
+    
+if __name__ == "__main__":
+    numer = random.randint(1,20)
+    #tytul + wielkosc okna
+    okno.title("Gry")
+    okno.geometry("500x500")
+    okno.resizable(0,0)
 
+    #rozszerzanie okna przez rzeczy w srodku
+    srodek = tk.Frame()
+    srodek.pack_propagate(0)
+
+    #rzut kostka
+    graRzutKostka = tk.Button(okno, text="Rzut kostka",command=pokazKostka,width=50,border=5,font=("Helvetica",26))
+    graRzutKostka.pack(padx=20,pady=20)
+
+    #zgadnij numer
+    graZgadnijNumer = tk.Button(okno, text="Zgadnij numer",command=pokazNumer,width=50,border=5,font=("Helvetica",26))
+    graZgadnijNumer.pack(padx=20,pady=20)
+    wyswietlNumer = tk.Label(okno,font=("Helvetica",26),bg="white",width=100)
+    przyciskSprawdz = tk.Button(okno, text="Sprawdz",command=zgadnijNumer,width=50,border=5,font=("Helvetica",26))
+    wyswietlTekst = tk.Label(okno, text="Oczekuje na odpowiedz...",font=("Helvetica",26))
+    sprawdzInt = tk.IntVar()
+    odp = tk.Entry(okno, textvariable=sprawdzInt,font=("Helvetica",26))
+
+    #wisielec
+    graWisielec = tk.Button(okno, text="Wisielec",command=wisielec,width=50,border=5,font=("Helvetica",26))
+    graWisielec.pack(padx=20,pady=20)
+    odp2 = tk.Entry(okno,font=("Helvetica",26))
+    przyciskWisielec = tk.Button(okno, text="Sprawdz",command=wisielecGra,width=50,border=5,font=("Helvetica",26))
+    tekstWisielec = tk.Label(okno, text="s",font=("Helvetica",26))
+    informacjaWisielec = tk.Label(okno, text="", font=("Helvetica,26"))
+    
+    #powrot do menu
+    przyciskWroc = tk.Button(okno, text="Powrot",command=zniszczWszystko,width=50,border=5,font=("Helvetica",10))
+
+    #petla odpalajaca wszystko w main
+    okno.mainloop()
